@@ -1,0 +1,29 @@
+﻿@model  List<DepartmentItemManagement.Models.Domain.Item>
+@{
+
+}
+<h1>Items</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>           
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Category</td>
+                <td>@item.Price</td>
+                <td><a href="ItemManagement/View/@item.Id"><button type="button" class="btn btn-primary">View</button></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
