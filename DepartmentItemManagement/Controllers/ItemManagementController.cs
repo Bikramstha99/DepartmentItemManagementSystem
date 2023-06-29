@@ -1,11 +1,13 @@
 ﻿using DepartmentItemManagement.Data;
 using DepartmentItemManagement.Models.Domain;
 using DepartmentItemManagement.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 
 namespace DepartmentItemManagement.Controllers
 {
+    
     public class ItemManagementController : Controller
     {
         private readonly ItemDb itemdb;
@@ -14,6 +16,7 @@ namespace DepartmentItemManagement.Controllers
         {
             this.itemdb = itemdb;
         }
+        [Authorize(Roles = "Admin,Customer")]
 
         [HttpGet]
         public IActionResult Index()
@@ -21,12 +24,14 @@ namespace DepartmentItemManagement.Controllers
             var item= itemdb.Items.ToList();
             return View(item);
         }
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet]
         public IActionResult Add()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add(AddItem additem)
         {
             var newitem = new Item()
@@ -40,6 +45,7 @@ namespace DepartmentItemManagement.Controllers
             itemdb.SaveChanges();
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet]
         public IActionResult View(int Id)
         {
@@ -57,6 +63,7 @@ namespace DepartmentItemManagement.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult View(UpdateItem updateitem)
         {
@@ -71,6 +78,7 @@ namespace DepartmentItemManagement.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Delete(int id)
         {
